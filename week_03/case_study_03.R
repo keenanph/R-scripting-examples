@@ -14,23 +14,34 @@ gap_filter <- gapminder %>%
   mutate(pop=pop/100000)
 
 
-ggplot(gap_filter,aes(lifeExp,gdpPercap,color=continent,size=pop))+geom_point()+
-  scale_y_continuous(trans='sqrt')+
-  facet_wrap(~year,nrow=1)+labs(title = 'Wealth and Life expectancy through time',
-                                x='Life Expectancy', y='GDP per capita',size='Population',
-                                color= 'Continent')+theme_bw()
+# ggplot(gap_filter,aes(lifeExp,gdpPercap,color=continent,size=pop))+geom_point()+
+#   scale_y_continuous(trans='sqrt')+
+#   facet_wrap(~year,nrow=1)+labs(title = 'Wealth and Life expectancy through time',
+#                                 x='Life Expectancy', y='GDP per capita',size='Population',
+#                                 color= 'Continent')+theme_bw()
 
 gapminder_continent <- gap_filter%>%
   group_by(continent,year)%>%
   summarize(gdpPercapweighted=weighted.mean(x=gdpPercap,w=pop),pop=sum(as.numeric(pop)))
 
-# ggplot(gap_filter,aes(year,gdpPercap))+geom_line()+geom_point()+
+ 
+ggplot()+geom_point(data=gap_filter,aes(x=year,y=gdpPercap,color=continent,group=country))+
+  geom_line(data=gap_filter,aes(x=year,y=gdpPercap,color=continent,group=country))+
+  geom_point(data=gapminder_continent,aes(x=year,y=gdpPercapweighted,size=pop))+
+  geom_line(data=gapminder_continent,aes(x=year,y=gdpPercapweighted))+facet_wrap(~continent,nrow=1)+theme_bw()
+
+#########################################
+
+# ggplot(gap_filter,aes(x=year,y=gdpPercap,color=continent,group= country))+
+#   geom_point()+geom_line()+
+#   facet_wrap(~continent,nrow=1)+
+#   geom_point(data=gapminder_continent,size= pop)
+ 
 #   geom_line(data=gapminder_continent,aes(gdpPercapweighted))+
 #   geom_point(data=gapminder_continent,aes(pop))+facet_wrap(~year,nrow=1)+
 #   theme_bw()+labs()
 
-
-# ggplot()+geom_line(gap_filter,aes(x=year,y=gdpPercap,color=continent))
+# ggplot()+geom_line(gap_filter, aes(x=year,y=gdpPercap,color=continent))
 # geom_point(gap_filter,aes(x=year,y=gdpPercap,color=continent))
 # geom_line(gapminder_continent,aes(x=year))
 # geom_point(gapminder_continent,aes(x,year,y,gdpPercapweighgt, size=pop/100000))
