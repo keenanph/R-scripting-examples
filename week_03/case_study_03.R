@@ -14,21 +14,26 @@ gap_filter <- gapminder %>%
   mutate(pop=pop/100000)
 
 
-# ggplot(gap_filter,aes(lifeExp,gdpPercap,color=continent,size=pop))+geom_point()+
-#   scale_y_continuous(trans='sqrt')+
-#   facet_wrap(~year,nrow=1)+labs(title = 'Wealth and Life expectancy through time',
-#                                 x='Life Expectancy', y='GDP per capita',size='Population',
-#                                 color= 'Continent')+theme_bw()
+plot1 <- ggplot(gap_filter,aes(lifeExp,gdpPercap,color=continent,size=pop))+geom_point()+
+  scale_y_continuous(trans='sqrt')+
+  facet_wrap(~year,nrow=1)+labs(title = 'Wealth and Life expectancy through time',
+                                x='Life Expectancy', y='GDP per capita',size='Population',
+                                color= 'Continent')+theme_bw()
+ggsave('Wealth_Life_exp.png', plot=plot1, width=15,units = c('in'))
 
 gapminder_continent <- gap_filter%>%
   group_by(continent,year)%>%
   summarize(gdpPercapweighted=weighted.mean(x=gdpPercap,w=pop),pop=sum(as.numeric(pop)))
 
  
-ggplot()+geom_point(data=gap_filter,aes(x=year,y=gdpPercap,color=continent,group=country))+
+plot2 <- ggplot()+geom_point(data=gap_filter,aes(x=year,y=gdpPercap,color=continent,group=country))+
   geom_line(data=gap_filter,aes(x=year,y=gdpPercap,color=continent,group=country))+
   geom_point(data=gapminder_continent,aes(x=year,y=gdpPercapweighted,size=pop))+
-  geom_line(data=gapminder_continent,aes(x=year,y=gdpPercapweighted))+facet_wrap(~continent,nrow=1)+theme_bw()
+  geom_line(data=gapminder_continent,aes(x=year,y=gdpPercapweighted))+
+  facet_wrap(~continent,nrow=1)+theme_bw()+labs(title='GDP per capita growth over time', x='Time',y='GDP per capita',
+                                                size='Population (100k', color='Continent')
+
+ggsave('GDP_continent.png',plot=plot2,width=15,units = c('in'))
 
 #########################################
 
