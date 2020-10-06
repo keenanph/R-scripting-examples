@@ -1,7 +1,45 @@
----
-title: "Case Study 05"
-author: Your Name
-date: August 1, 2020
-output: github_document
----
+# ---
+# title: "Case Study 05"
+# author: Your Name
+# date: August 1, 2020
+# output: github_document
+# ---
+library(spData)
+library(sf)
+library(tidyverse)
+library(units) 
  
+data(world) 
+data(us_states)
+#plot(world[1]) #this plots the world (iso_a2) 
+#plot(us_states[1]) #this plots the us states according to geoID
+
+
+st_crs(world)
+
+albers="+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"
+
+world2<-st_transform(world,albers)
+
+
+Canada<- world2 %>%
+  filter(name_long=='Canada')
+  
+Canada_buff_10<- st_buffer(Canada,dist=10000)
+ggplot(Canada_buff_10)+geom_sf()
+
+
+us_states2<-st_transform(us_states,albers)
+New_York<- us_states2 %>%
+  filter(NAME=='New York')
+
+border<-st_intersection(Canada_buff_10,New_York)
+
+ggplot()+geom_sf(data=New_York)+geom_sf(data=border,aes(fill='red'))
+
+
+total_area<-st_area(border)
+set_units(total_area,km^2)
+
+
+
