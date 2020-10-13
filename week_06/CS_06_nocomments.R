@@ -1,9 +1,3 @@
----
-title: "Case Study 06"
-author: Your Name
-date: August 1, 2020
-output: github_document
----
 library(raster)
 library(sp)
 library(spData)
