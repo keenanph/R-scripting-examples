@@ -4,4 +4,15 @@ author: Your Name
 date: August 1, 2020
 output: github_document
 ---
- 
+library(tidyverse)
+library (reprex)
+library (sf)
+
+library(spData)
+data(world)
+
+ggplot(world,aes(x=gdpPercap,y=continent,color-continent))+geom_density(alpha=0.5,
+                                                                         color=F)
+reprex()
+#Ctrl + C the code that is causing issues, run the reprex and it will pull the
+#code black from the clipboard
