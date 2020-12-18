@@ -1,0 +1,68 @@
+---
+title: "Project Proposal for Archaeological Clustering"
+author: Keenan Phillips
+output:
+    github_document
+---
+
+# Introduction to problem/question
+  The National Preservation Act (NPA) of 1966 requires an archaeological survey to be conducted if a project receives public funds. If an individual(s) receives funds, a contract is put out to bid to cultural resource management firms (CRM) to excavate. Archaeological excavation is an intensive extractive scientific methodology to understand the past. While this methodology has been proven to be successful in obtaining various forms of data about the past, it is extremely expensive. Within Western New York, there are very few academic archaeologists and even fewer that study the region. The region is hugely understudied in both material and settlement remains. The majority of the archaeological sites are from CRM excavations which are not dug due to viability of material culture, rather it is to make way for new construction. This makes for computational exploration of the past landscape of the landscape extremely difficult. Because of the relative spatial clustering for new construction growth, the discovery of new archaeological sites in the area would also follow similar spatial clustering patterns.  However, this spatial clustering gives off the appearance that this is original clustering rather than a present bias – meaning the clustering exists because of where current archaeological sites have been excavated. I want to begin to test this and see exactly how much our use of sites that are discovered due to modern construction affects our understanding of areas that could have archaeological sites. 
+I have created a basic suitability raster in R that takes into account basic variables of archaeological suitability; including the locations of other known archaeological sites, distance from water, and elevation. The point of this project is to see where these spatial clusters of sites match up with the suitability raster and where they don’t. In a perfect world, this can be tested field data of surveys that would look at areas that seem to be suitable for archaeological sites but do not have any known sites. Surveying areas that are considered high suitable for archaeological sites but aren’t covered by a cluster of known sites would be the most cost effective form of distributing resources like technicians in the field. 
+
+# Problem / Question
+How much suitable area for an archaeological survey has been left unsurveyed with Clarence Center?
+
+# Inspiring Examples
+
+## Example 1
+![](C:\Users\Baloo\Pictures\clusterSize.png)
+
+I found this graphic easy to understand because of the variability with size for each cluster. I think this would be helpful in understanding the density of sites within an area. 
+## Example 2
+![](C:\Users\Baloo\Pictures\ClusterKmeans.png)
+
+I found this graphic because I think the outline and simplicity of the breakdown of clustering without any frills. It is important to have something like this so that shows the construction of the analysis from the ground up.
+## Example 3
+![](C:\Users\Baloo\Pictures\ClusterOccupation.png)
+
+This example is the opposite of the build up. It is important to show the complexity of the cluster that is layered with the study area to provide some orientation to the reader. While a bare bones cluster outline shows the the clusters, it feels disconnected from the study area. 
+
+# Proposed data sources
+
+Data Sources:
+DEM from USGS: Already downloaded https://earthexplorer.usgs.gov/
+Waterways: NHD from USGS – already downloaded https://earthexplorer.usgs.gov/
+Prehistoric Archaeological sites: Taken from UB Arch survey because I am the one who digitized them but can also be taken from CRIS (NYS) – See map:
+
+![](C:\Users\Baloo\Pictures\ClarenceVariables.png)
+
+This is an overlay map showing the variables in the suitability raster
+
+![](C:\Users\Baloo\Pictures\ClarenceSuit.png)
+
+This is the map showing the final suitability raster which also takes into account erosion patterns
+
+# Proposed methods
+
+1.	The suitability raster is an equally weighted raster using known archaeological sites, waterways, and DEM. I took distance from each feature to create the area of suitability. (more than 250 m from an Archaeological site, less than a kilometer from water, and the top quartile of Elevation across the USGS quad)
+2.	The clustering – this is difficult because I am a little unfamiliar with all of the methods behind clustering. 
+a.	NbClust is a package that helps to determine the best number of clusters. I would use this to be break up the data into the appropriate clusters
+b.	clustTool a package to help map out the clusters of sites
+3.	Overlay the suitability raster with the clusters to show the variation
+4.	I would like to find a way to measure the outlines of the clusters against the suitability area and figure out how much space isn’t covered by the overlay – giving a value to how much over of the study area is understudied. 
+
+
+# Expected results
+I believe that there are going to be areas that are suitable for archaeological sites but aren’t thoroughly covered by clusters due to the lack of modern construction. The final results would be shown through the production of graphics and a number to show the area left over. 
+
+# Sources
+
+Leathwick, J. R. (2000). Predictive models of archaeological site distributions in New Zealand. Department of Conservation.
+
+Schiffer, Michael B. Sullivan, Alan P., Klinger, Timothy. (1978) The Design of Archaeological Surveys World Archaeology 10 (1) pp 1 – 28
+
+Warren, Robert., Asch, David. (2003). A Predictive Model of Archaeological Site Location in the Eastern Prairie Peninsula in Practical Applications of GIS for Archaeoloigists: A Predictive Modelling Toolkit 5 -32
+
+Wright, D. K., Kim, J., Park, J., Yang, J., & Kim, J. (2020). Spatial modeling of archaeological site locations based on summed probability distributions and hot-spot analyses: A case study from the Three Kingdoms Period, Korea. Journal of Archaeological Science, 113, 105036.
+
+
