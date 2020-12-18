@@ -1,7 +1,31 @@
 ---
 title: "Case Study 08"
-author: Your Name
+author: 'Your Name'
 date: August 1, 2020
-output: github_document
+output:
+  html_document: default
+  github_document: default
+  powerpoint_presentation: default
+  word_document: default
 ---
- 
+library (tidyverse)
+library(knitr)
+library(kableExtra)
+library(magick)
+library(webshot)
+library(phantomjs)
+
+annual_mean = read_table('ftp://aftp.cmdl.noaa.gov/products/trends/co2/co2_annmean_mlo.txt',skip=56)
+
+library(ggplot2)
+ggplot(annual_mean, aes(year, mean))+geom_line()
+
+oldest_decade = annual_mean%>%
+  arrange(year)%>%
+  slice(1:10)
+
+
+kable(oldest_decade,'html')%>%
+  kable_styling('striped')%>%
+  as_image(width=10, file='week_08/table.png')
+
